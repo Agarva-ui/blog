@@ -1,0 +1,18 @@
+# Python junk
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+
+# macOS junk
+.DS_Store
+
+# Virtual environment
+venv/
+
+# SQLite DB
+posts.db
+
+# Editor settings
+.vscode/
+.idea/
