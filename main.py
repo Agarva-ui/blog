@@ -66,7 +66,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
-    password: Mapped[str] = mapped_column(String(100))
+    password: Mapped[str] = mapped_column(String(512))
     name: Mapped[str] = mapped_column(String(100))
 
     comments = relationship("Comment",back_populates="comment_author")
