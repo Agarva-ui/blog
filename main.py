@@ -82,7 +82,7 @@ class BlogPost(db.Model):
     author = relationship("User", back_populates="posts")
 
     # relationship with Comment
-    comments = relationship("Comment", back_populates="post_comment")
+    comments = relationship("Comment", back_populates="post_comment", cascade="all, delete")
 
     title: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     subtitle: Mapped[str] = mapped_column(String(250), nullable=False)
@@ -210,7 +210,7 @@ def add_new_post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for("get_all_posts"))
-    return render_template("make-post.html", form=form)
+    return render_template("make-post.html", form=form,user=current_user)
 
 
 # TODO: Use a decorator so only an admin user can edit a post
@@ -233,7 +233,7 @@ def edit_post(post_id):
         post.body = edit_form.body.data
         db.session.commit()
         return redirect(url_for("show_post", post_id=post.id))
-    return render_template("make-post.html", form=edit_form, is_edit=True)
+    return render_template("make-post.html", form=edit_form, is_edit=True,user=current_user)
 
 
 # TODO: Use a decorator so only an admin user can delete a post
@@ -248,13 +248,13 @@ def delete_post(post_id):
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", user=current_user)
 
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    return render_template("contact.html", user=current_user)
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
